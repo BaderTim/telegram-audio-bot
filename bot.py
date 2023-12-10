@@ -69,10 +69,11 @@ async def transcribe(update: Update, context: ContextTypes.DEFAULT_TYPE, duratio
         os.remove(new_file_name)
         return
     # Send transcription
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, 
-        text=f"{transcript}"
-    )
+    for i in range(0, len(transcript), 4000):
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id, 
+            text=f"{transcript[i:i+4000]}"
+        )
     # Delete file
     file_to_transcribe.close()  
     os.remove(new_file_name)
